@@ -1,0 +1,51 @@
+// Given an m x n matrix, return all elements of the matrix in spiral order.
+
+// Input: matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+// Output: [1, 2, 3, 6, 9, 8, 7, 4, 5]
+
+
+// Input: matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
+// Output: [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
+
+var spiralOrder = function (matrix) {
+    if (matrix.length === 0 || !matrix || matrix.length === 1) {
+        return matrix[0];
+    }
+    let results = [];
+    let record = new Map();
+    let dir = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+    let dirInd = 0;
+    let curr = [0, 0];
+    while (1 === 1) {
+        let currDir = dir[dirInd];
+        let xChange = currDir[0];
+        let yChange = currDir[1];
+        x = curr[0];
+        y = curr[1];
+        if (matrix[x][y] || matrix[x][y] === 0) {
+            results.push(matrix[x][y]);
+        }
+        record.set(`${x}_${y}`);
+
+        if (matrix[x + xChange]
+            && (matrix[x + xChange][y + yChange] || matrix[x + xChange][y + yChange] === 0)
+            && !record.has(`${x + xChange}_${y + yChange}`)) {
+            curr = [x + xChange, y + yChange]
+            continue;
+        } else {
+            if (dirInd === 3) {
+                dirInd = 0;
+            } else {
+                dirInd++;
+            }
+            currDir = dir[dirInd];
+            xChange = currDir[0];
+            yChange = currDir[1];
+            if (record.has(`${x + xChange}_${y + yChange}`)) {
+                return results;
+            } else {
+                curr = [x + xChange, y + yChange]
+            }
+        }
+    }
+}
