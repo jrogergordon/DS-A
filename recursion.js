@@ -58,12 +58,21 @@ var kthGrammar = function (n, k) {
 
 var diffWaysToCompute = function (expression) {
     let results = [];
-    let arrangeParen = (expr, i, leftCt, rightCt) => {
+    let arrangeParen = (expr, i, left, right) => {
         if (i === expression.length) {
+            expr = expr + ")";
             results.push(eval(expr));
             return;
         } else {
-            expr = expr + expression[i];
+            if (operators.has(expression[i])) {
+                expr = expr + expression[i];
+                arrangeParen(expr, i + 1, left, right);
+            } else {
+                if (left > 0) {
+                    left--
+                    epxr = expr + "(";
+                }
+            }
         }
 
     }
@@ -71,7 +80,18 @@ var diffWaysToCompute = function (expression) {
     operators.add("+");
     operators.add("-");
     operators.add("*");
+    opCount = 0;
+    for (let i = 0; i < expression.length; i++) {
+        if (operators.has(expression[i])) {
+            opCount++;
+        }
+    }
+    letfCt = opCount;
+    rightCt = 0;
+    let crossedCt = 0;
+    arrangeParen("(", 0, leftCt, rightCt)
 
     console.log(eval("(5+6) * 3"))
     console.log(!isNaN('1'))
+    return results;
 };
