@@ -95,3 +95,64 @@ var diffWaysToCompute = function (expression) {
     console.log(!isNaN('1'))
     return results;
 };
+
+
+
+
+// Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.
+
+// In other words, return true if one of s1's permutations is the substring of s2.
+
+/**
+ * @param {string} s1
+ * @param {string} s2
+ * @return {boolean}
+ */
+var checkInclusion = function (s1, s2) {
+    let mapS1 = new Map();
+    let mapS2 = new Map();
+
+    let mapsEqual = function () {
+        if (mapS1.size !== mapS2.size) {
+            return false;
+        }
+        for (arr of mapS1) {
+            if (mapS1.get(arr[1]) !== mapS2.get(arr[1])) {
+                return false;
+            }
+            return true;
+        }
+
+    }
+
+    for (let i = 0; i < s1.length; i++) {
+        if (mapS1.has(s1[i])) {
+            mapS1.set(s1[i], mapS1.get(s1[i]) + 1);
+        } else {
+            mapS1.set(s1[i], 1);
+        }
+    }
+    for (let j = 0; j < s2.length; j++) {
+        if (mapS1.has(s2[j])) {
+            if (mapS2.has(s2[j])) {
+                mapS2.set(s2[j], mapS1.get(s2[j]) + 1)
+            } else {
+                mapS2.set(s2[j], 1)
+            }
+        } else {
+            if (mapsEqual()) {
+                return true;
+            } else {
+                mapS2 = new Map();
+            }
+        }
+
+    }
+    if (mapsEqual()) {
+        console.log(mapS1, mapS2)
+        console.log("hi")
+        return true;
+    }
+    return false;
+
+}
