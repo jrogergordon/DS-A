@@ -117,12 +117,11 @@ var checkInclusion = function (s1, s2) {
             return false;
         }
         for (arr of mapS1) {
-            if (mapS1.get(arr[1]) !== mapS2.get(arr[1])) {
+            if (mapS1.get(arr[0]) != mapS2.get(arr[0])) {
                 return false;
             }
-            return true;
         }
-
+        return true;
     }
 
     for (let i = 0; i < s1.length; i++) {
@@ -132,25 +131,30 @@ var checkInclusion = function (s1, s2) {
             mapS1.set(s1[i], 1);
         }
     }
+
     for (let j = 0; j < s2.length; j++) {
-        if (mapS1.has(s2[j])) {
-            if (mapS2.has(s2[j])) {
-                mapS2.set(s2[j], mapS1.get(s2[j]) + 1)
-            } else {
-                mapS2.set(s2[j], 1)
-            }
-        } else {
+        if (j + 1 > s1.length) {
+            console.log(j, s1.length)
+            console.log(mapS2)
             if (mapsEqual()) {
                 return true;
+            }
+            let curr = s2[j - s1.length];
+            if (mapS2.get(curr) > 1) {
+                mapS2.set(curr, mapS2.get(curr) - 1);
             } else {
-                mapS2 = new Map();
+                mapS2.delete(curr)
             }
         }
 
+        if (mapS2.has(s2[j])) {
+            mapS2.set(s2[j], mapS2.get(s2[j]) + 1);
+        } else {
+            mapS2.set(s2[j], 1);
+        }
     }
+    console.log(mapS2)
     if (mapsEqual()) {
-        console.log(mapS1, mapS2)
-        console.log("hi")
         return true;
     }
     return false;
