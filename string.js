@@ -54,3 +54,105 @@ var romanToInt = function (s) {
     }
     return num;
 };
+
+
+
+
+// Given an integer, convert it to a roman numeral.
+
+
+var intToRoman = function (N) {
+    let num = "";
+
+    let transOne = function (x) {
+        if (x === 4) {
+            num = "IV" + num;
+            x = x - 4;
+        }
+        if (x === 9) {
+            num = "IX" + num;
+            x = x - 9;
+        }
+        while (x > 0) {
+            if (x === 5) {
+                num = "V" + num;
+                x = x - 5;
+            } else {
+                num = "I" + num;
+                x = x - 1;
+            }
+        }
+    }
+
+    let transTen = function (x) {
+        if (x === 4) {
+            num = "XL" + num;
+            x = x - 4;
+        }
+        if (x === 9) {
+            num = "XC" + num;
+            x = x - 9;
+        }
+        while (x > 0) {
+            if (x === 5) {
+                num = "L" + num;
+                x = x - 5;
+            } else {
+                num = "X" + num;
+                x = x - 1;
+            }
+        }
+    }
+
+    let transHun = function (x) {
+        if (x === 4) {
+            num = "CD" + num;
+            x = x - 4;
+        }
+        if (x === 9) {
+            num = "CM" + num;
+            x = x - 9;
+        }
+        while (x > 0) {
+            if (x === 5) {
+                num = "D" + num;
+                x = x - 5;
+            } else {
+                num = "C" + num;
+                x = x - 1;
+            }
+        }
+    }
+
+    let transThou = function (x) {
+        while (x > 0) {
+            num = "M" + num;
+            x = x - 1;
+        }
+    }
+    let count = 0;
+    while (N > 0) {
+        let curr = N % 10;
+        // console.log(curr);
+        switch (count) {
+            case 0:
+                // console.log("1")
+                transOne(curr)
+                break;
+            case 1:
+                console.log("2")
+                transTen(curr)
+                break;
+            case 2:
+                // console.log("3")
+                transHun(curr)
+                break;
+            case 3:
+                transThou(curr);
+                break;
+        }
+        count++;
+        N = Math.floor(N / 10);
+    }
+    return num;
+};
