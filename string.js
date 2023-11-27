@@ -55,6 +55,52 @@ var romanToInt = function (s) {
     return num;
 };
 
+// Given two non - negative integers num1 and num2 represented as strings,
+//  return the product of num1 and num2, also represented as a string.
+
+//     Note: You must not use any built -in BigInteger library or convert the inputs to
+//  integer directly.
+var multiply = function (num1, num2) {
+    let nums = new Map();
+
+    nums.set("0", 0);
+    nums.set("1", 1);
+    nums.set("2", 2);
+    nums.set("3", 3);
+    nums.set("4", 4);
+    nums.set("5", 5);
+    nums.set("6", 6);
+    nums.set("7", 7);
+    nums.set("8", 8);
+    nums.set("9", 9);
+
+    let numArr = [];
+    let numArr2 = [];
+
+    for (let i = 0; i < num1.length; i++) {
+        numArr.push(num1[i]);
+    }
+    for (let j = 0; j < num2.length; j++) {
+        numArr2.push(num2[j]);
+    }
+    function createNum(num) {
+        let count = 1;
+        let numNum = 0;
+        while (num.length > 0) {
+            let curr = num.pop();
+            numNum = numNum + (count * nums.get(curr))
+            count = count * 10;
+        }
+        console.log(numNum);
+        return numNum;
+    }
+    let firstNum = createNum(numArr);
+    let secNum = createNum(numArr2);
+
+    let ans = firstNum * secNum;
+    return `${ans}`
+};
+
 
 
 
