@@ -61,8 +61,10 @@ var romanToInt = function (s) {
 //     Note: You must not use any built -in BigInteger library or convert the inputs to
 //  integer directly.
 var multiply = function (num1, num2) {
+    if (num1 === 0 || num2 === 0) {
+        return '0';
+    }
     let nums = new Map();
-
     nums.set("0", 0);
     nums.set("1", 1);
     nums.set("2", 2);
@@ -74,31 +76,36 @@ var multiply = function (num1, num2) {
     nums.set("8", 8);
     nums.set("9", 9);
 
-    let numArr = [];
-    let numArr2 = [];
+    let num1Arr = [];
+    let num2Arr = [];
 
-    for (let i = 0; i < num1.length; i++) {
-        numArr.push(num1[i]);
+
+    for (let k = 0; k < num1.length; k++) {
+        num1Arr.push(num1[k]);
     }
-    for (let j = 0; j < num2.length; j++) {
-        numArr2.push(num2[j]);
+
+    for (let l = 0; l < num2.length; l++) {
+        num2Arr.push(num2[l]);
     }
-    function createNum(num) {
-        let count = 1;
-        let numNum = 0;
-        while (num.length > 0) {
-            let curr = num.pop();
-            numNum = numNum + (count * nums.get(curr))
-            count = count * 10;
+
+
+    let count1 = 1;
+    let num = 0;
+    console.log(num1Arr);
+    console.log(num2Arr);
+    for (let i = num1Arr.length - 1; i >= 0; i--) {
+        let count2 = 1;
+        let curr1 = num1Arr[i] * count1;
+        for (let j = num2Arr.length - 1; j >= 0; j--) {
+            let curr2 = num2Arr[j] * count2;
+            num = num + (curr2 * curr1);
+            console.log(num);
+            count2 = count2 * 10;
         }
-        console.log(numNum);
-        return numNum;
+        count1 = count1 * 10;
     }
-    let firstNum = createNum(numArr);
-    let secNum = createNum(numArr2);
+    return `${num}`;
 
-    let ans = firstNum * secNum;
-    return `${ans}`
 };
 
 
