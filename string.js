@@ -55,13 +55,16 @@ var romanToInt = function (s) {
     return num;
 };
 
+
+//243 x 441
+
 // Given two non - negative integers num1 and num2 represented as strings,
 //  return the product of num1 and num2, also represented as a string.
 
 //     Note: You must not use any built -in BigInteger library or convert the inputs to
 //  integer directly.
 var multiply = function (num1, num2) {
-    if (num1 === 0 || num2 === 0) {
+    if (num1 === '0' || num2 === '0') {
         return '0';
     }
     let nums = new Map();
@@ -76,36 +79,23 @@ var multiply = function (num1, num2) {
     nums.set("8", 8);
     nums.set("9", 9);
 
-    let num1Arr = [];
-    let num2Arr = [];
-
-
-    for (let k = 0; k < num1.length; k++) {
-        num1Arr.push(num1[k]);
-    }
-
-    for (let l = 0; l < num2.length; l++) {
-        num2Arr.push(num2[l]);
-    }
-
-
-    let count1 = 1;
-    let num = 0;
-    console.log(num1Arr);
-    console.log(num2Arr);
-    for (let i = num1Arr.length - 1; i >= 0; i--) {
-        let count2 = 1;
-        let curr1 = num1Arr[i] * count1;
-        for (let j = num2Arr.length - 1; j >= 0; j--) {
-            let curr2 = num2Arr[j] * count2;
-            num = num + (curr2 * curr1);
-            console.log(num);
-            count2 = count2 * 10;
+    let mult = new Array(num1.length + num2.length).fill(0);
+    for (let i = num1.length - 1; i >= 0; i--) {
+        for (let j = num2.length - 1; j >= 0; j--) {
+            let currSpot = i + j + 1;
+            let tenCurrSpot = i + j;
+            let curr = mult[currSpot] + (nums.get(num1[i]) * nums.get(num2[j]));
+            // console.log(nums.get(num1[i]), nums.get(num2[j]), curr)            
+            mult[currSpot] = curr % 10;
+            mult[tenCurrSpot] += Math.floor(curr / 10);
+            // console.log(mult);
+            // console.log('break')
         }
-        count1 = count1 * 10;
     }
-    return `${num}`;
-
+    if (mult[0] === 0) {
+        mult.shift();
+    }
+    return mult.join('');
 };
 
 
