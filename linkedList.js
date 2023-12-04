@@ -107,67 +107,63 @@ var addTwoNumbers = function (l1, l2) {
  * @return {ListNode}
  */
 var addTwoNumbers = function (l1, l2) {
+    let dummyOne = new ListNode(0, l1)
+    let dummyTwo = new ListNode(0, l2);
     let num1 = '';
     let num2 = '';
+    let curr;
+    let carryOver = 0;
+    let cont = true;
+    while (l1 && l2 && cont) {
+        curr = l1.val + l2.val + carryOver;
+        carryOver = 0;
+        if (curr > 9) {
+            carryOver = 1;
+            curr = curr % 10;
+        }
+        l1.val = curr;
+        l2.val = curr;
+        console.log(dummyOne.next)
 
-    while (l1) {
-        num1 = `${l1.val}` + num1;
+        if (carryOver === 1 && !l1.next && !l2.next) {
+
+            l1.next = new ListNode(1)
+            l1 = l1.next;
+        }
         l1 = l1.next;
-    }
-
-    while (l2) {
-        num2 = `${l2.val}` + num2;
         l2 = l2.next;
     }
 
-    function addTwo(num1, num2) {
-        let sum = new Array(num1.length + num2.length).fill(0);
-        let num1Start = num1.length - 1;
-        let num2Start = num2.length - 1;
-        let curr = 0;
-        let carryOver = 0;
-        for (let i = sum.length - 1; i >= 0; i--) {
-            if (num1[num1Start] && num2[num2Start]) {
-                curr = carryOver + Number(num1[num1Start]) + Number(num2[num2Start]);
-            } else if (num1[num1Start]) {
-                curr = carryOver + Number(num1[num1Start])
-            } else if (num2[num2Start]) {
-                curr = carryOver + Number(num2[num2Start])
-            } else {
-                if (carryOver === 1) {
-                    sum[i] = 1;
-                }
-                while (sum[0] === 0) {
-                    sum.shift();
-                }
-                return sum.join('')
-            }
-            carryOver = 0;
-            if (curr > 9) {
-                carryOver = 1;
-                curr = curr % 10;
-            }
-            sum[i] = `${curr}`
-            num1Start--;
-            num2Start--;
-        }
-    }
-    let addedNum = addTwo(num1, num2)
+    let num;
 
-    function linkify(num) {
-        let dummy = new ListNode(0);
-        let i = num.length - 1;
-        let head = new ListNode(num[i])
-        dummy.next = head;
-        while (i >= 0) {
-            head.val = num[i];
-            i--;
-            if (i >= 0) {
-                head.next = new ListNode();
-                head = head.next;
-            }
+    if (!l1 && !l2) {
+        return dummyOne.next;
+    } else {
+        if (l1) {
+            curr = l1;
+            num = dummyOne
+        } else {
+            curr = l2;
+            num = dummyTwo
         }
-        return dummy.next;
     }
-    return linkify(addedNum);
+    cont = true;
+    while (curr && cont) {
+        curr.val = curr.val + carryOver;
+        carryOver = 0;
+        if (curr.val > 9) {
+            carryOver = 1
+            curr.val = curr.val % 10;
+        }
+        if (curr.next) {
+            curr = curr.next;
+        } else {
+            if (carryOver === 1) {
+                curr.next = new ListNode(1)
+            }
+            cont = false;
+        }
+    }
+
+    return num.next;
 };
