@@ -107,63 +107,77 @@ var addTwoNumbers = function (l1, l2) {
  * @return {ListNode}
  */
 var addTwoNumbers = function (l1, l2) {
-    let dummyOne = new ListNode(0, l1)
-    let dummyTwo = new ListNode(0, l2);
-    let num1 = '';
-    let num2 = '';
+    // let dummyOne = new ListNode(0, l1)
+    // let dummyTwo = new ListNode(0, l2);
+
+    let head;
+    let dummy;
+
     let curr;
     let carryOver = 0;
-    let cont = true;
-    while (l1 && l2 && cont) {
+    let cont = 1;
+    while (l1 && l2 && (cont === 1 || cont === true)) {
+
+        if (cont === 1) {
+            head = new ListNode()
+            dummy = new ListNode(0, head);
+            cont = true;
+        } else {
+            head.next = new ListNode();
+            head = head.next;
+        }
         curr = l1.val + l2.val + carryOver;
         carryOver = 0;
         if (curr > 9) {
             carryOver = 1;
             curr = curr % 10;
         }
-        l1.val = curr;
-        l2.val = curr;
-        console.log(dummyOne.next)
+        // l1.val = curr;
+        // l2.val = curr;
+        head.val = curr;
+
 
         if (carryOver === 1 && !l1.next && !l2.next) {
-
-            l1.next = new ListNode(1)
-            l1 = l1.next;
+            head.next = new ListNode(1)
         }
         l1 = l1.next;
         l2 = l2.next;
     }
 
-    let num;
+    // let num;
 
     if (!l1 && !l2) {
-        return dummyOne.next;
+        return dummy.next;
     } else {
         if (l1) {
             curr = l1;
-            num = dummyOne
+            // num = dummyOne
         } else {
             curr = l2;
-            num = dummyTwo
+            // num = dummyTwo
         }
     }
+    head.next = new ListNode();
+    head = head.next;
     cont = true;
     while (curr && cont) {
-        curr.val = curr.val + carryOver;
+        head.val = curr.val + carryOver;
         carryOver = 0;
-        if (curr.val > 9) {
+        if (head.val > 9) {
             carryOver = 1
-            curr.val = curr.val % 10;
+            head.val = head.val % 10;
         }
         if (curr.next) {
             curr = curr.next;
+            head.next = new ListNode();
+            head = head.next;
         } else {
             if (carryOver === 1) {
-                curr.next = new ListNode(1)
+                head.next = new ListNode(1)
             }
             cont = false;
         }
     }
 
-    return num.next;
+    return dummy.next;
 };
