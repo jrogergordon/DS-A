@@ -107,77 +107,12 @@ var addTwoNumbers = function (l1, l2) {
  * @return {ListNode}
  */
 var addTwoNumbers = function (l1, l2) {
-    // let dummyOne = new ListNode(0, l1)
-    // let dummyTwo = new ListNode(0, l2);
-
-    let head;
-    let dummy;
-
-    let curr;
-    let carryOver = 0;
-    let cont = 1;
-    while (l1 && l2 && (cont === 1 || cont === true)) {
-
-        if (cont === 1) {
-            head = new ListNode()
-            dummy = new ListNode(0, head);
-            cont = true;
-        } else {
-            head.next = new ListNode();
-            head = head.next;
-        }
-        curr = l1.val + l2.val + carryOver;
-        carryOver = 0;
-        if (curr > 9) {
-            carryOver = 1;
-            curr = curr % 10;
-        }
-        // l1.val = curr;
-        // l2.val = curr;
-        head.val = curr;
-
-
-        if (carryOver === 1 && !l1.next && !l2.next) {
-            head.next = new ListNode(1)
-        }
-        l1 = l1.next;
-        l2 = l2.next;
+    function linkify(n1, n2, carry = 0) {
+        if (!n1 && !n2 && carry === 0) return null
+        let x = (n1?.val || 0) + (n2?.val || 0) + carry;
+        let next = linkify(n1?.next, n2?.next, Math.floor(x / 10));
+        return new ListNode(x % 10, next);
     }
 
-    // let num;
-
-    if (!l1 && !l2) {
-        return dummy.next;
-    } else {
-        if (l1) {
-            curr = l1;
-            // num = dummyOne
-        } else {
-            curr = l2;
-            // num = dummyTwo
-        }
-    }
-    head.next = new ListNode();
-    head = head.next;
-    cont = true;
-    while (curr && cont) {
-        head.val = curr.val + carryOver;
-        carryOver = 0;
-        if (head.val > 9) {
-            carryOver = 1
-            head.val = head.val % 10;
-        }
-        if (curr.next) {
-            curr = curr.next;
-            head.next = new ListNode();
-            head = head.next;
-        } else {
-            if (carryOver === 1) {
-                head.next = new ListNode(1)
-            }
-            cont = false;
-        }
-    }
-
-    return dummy.next;
+    return linkify(l1, l2);
 };
