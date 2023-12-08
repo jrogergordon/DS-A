@@ -160,3 +160,57 @@ var checkInclusion = function (s1, s2) {
     return false;
 
 }
+
+// Given a string expression of numbers and operators, return all possible results from computing all the different possible ways to group numbers and operators.You may return the answer in any order.
+
+// The test cases are generated such that the output values fit in a 32 - bit integer and the number of different results does not exceed 104.
+
+
+var diffWaysToCompute = function (expression) {
+    let operand = new Set();
+    operand.add("*")
+    operand.add("-")
+    operand.add("+")
+    let pairs = 0;
+    for (let i = 0; i < expression.length; i++) {
+        if (operand.has(expression[i])) {
+            pairs++;
+        }
+    }
+
+    let combos = [];
+
+    function addParen(parenExpr, j, left, right, opCount) {
+        console.log(parenExpr, j, left, right, opCount);
+        if (operand.has(expression[j])) {
+            opCount++;
+            addParen(parenExpr + expression[j], j + 1, left, right, opCount);
+        }
+
+        if (left === pairs && right === pairs) {
+            combos.push(eval(parenExpr));
+            return;
+        }
+
+        if (!operand.has(expression[j]) && left < pairs) {
+            while (left < pairs) {
+                parenExpr = parenExpr + "("
+                left++;
+                addParen(parenExpr + expression[j], j + 1, left, right, opCount);
+            }
+        }
+
+        if (!operand.has(expression[j]) && expression[j] && right < left) {
+            let curr = ""
+            while (right < left && opCount > 0) {
+                curr = curr + ")"
+                right++;
+                opCount--;
+                addParen(parenExpr + expression[j] + curr, j + 1, left, right, opCount);
+            }
+        }
+    }
+    addParen("", 0, 0, 0, 0);
+    console.log(combos);
+    return combos;
+}; 
