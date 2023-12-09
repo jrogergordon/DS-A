@@ -199,3 +199,36 @@ var intToRoman = function (N) {
     }
     return num;
 };
+
+
+// The DNA sequence is composed of a series of nucleotides abbreviated as 'A', 'C', 'G', and 'T'.
+
+// For example, "ACGAATTCCG" is a DNA sequence.
+// When studying DNA, it is useful to identify repeated sequences within the DNA.
+
+// Given a string s that represents a DNA sequence, return all the 10 - letter - long sequences(substrings) that occur more than once in a DNA molecule.You may return the answer in any order.
+
+
+
+var findRepeatedDnaSequences = function (s) {
+    let seq = new Map();
+    let curr = "";
+    let repeated = [];
+
+    for (let i = 0; i <= s.length; i++) {
+        if (curr.length < 10) {
+            console.log(curr);
+            curr = curr + s[i];
+        } else {
+            console.log("hit");
+            if (seq.has(curr) && seq.get(curr) === 1) {
+                seq.set(curr, 2);
+                repeated.push(curr);
+            } else if (!seq.has(curr)) {
+                seq.set(curr, 1);
+            }
+            curr = curr.slice(1) + s[i];
+        }
+    }
+    return repeated;
+};
