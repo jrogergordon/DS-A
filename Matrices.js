@@ -110,3 +110,56 @@ var maximalSquare = function (matrix) {
     }
     return max;
 };
+
+
+/**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+var spiralOrder = function (matrix) {
+    if (matrix.length === 1) {
+        return matrix[0];
+    }
+    let spiral = [];
+    let dir = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+    let indexes = new Map;
+    let i = 0;
+    let j = 0;
+    let run = true;
+    let currDir = 0;
+    while (run) {
+        let curr = `${i}_${j}`
+        if (indexes.has(curr) || i === matrix.length || j === matrix[0].length || i < 0 || j < 0) {
+            i = i - dir[currDir][0];
+            j = j - dir[currDir][1];
+            if (currDir === 3) {
+                currDir = 0;
+                let x = dir[currDir][0]
+                let y = dir[currDir][1]
+                i = i + x;
+                j = j + y;
+                if (indexes.has(`${i}_${j}`) || i === matrix.length || j === matrix[0].length || i < 0 || j < 0) {
+                    run = false;
+                }
+            } else {
+                currDir++;
+                let x = dir[currDir][0]
+                let y = dir[currDir][1]
+                i = i + x;
+                j = j + y;
+                if (indexes.has(`${i}_${j}`) || !i === matrix.length || j === matrix[0].length || i < 0 || j < 0) {
+                    run = false;
+                }
+            }
+        }
+        if (run) {
+            spiral.push(matrix[i][j]);
+            indexes.set(`${i}_${j}`);
+            i = i + dir[currDir][0];
+            j = j + dir[currDir][1]
+        }
+
+        console.log(spiral);
+    }
+    return spiral;
+}
