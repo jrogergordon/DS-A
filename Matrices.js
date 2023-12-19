@@ -108,7 +108,7 @@ var maximalSquare = function (matrix) {
             }
         }
     }
-    return max;
+    return max; 
 };
 
 
