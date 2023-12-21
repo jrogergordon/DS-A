@@ -71,3 +71,25 @@ var maxProfit = function (prices) {
 
 
 }; //
+
+
+Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums.If target exists, then return its index.Otherwise, return -1.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+var search = function (nums, target) {
+    let min = 0;
+    let max = nums.length - 1;
+    let curr = 0;
+    while (min <= max) {
+        curr = Math.floor((min + max) / 2)
+        if (nums[curr] === target) return curr
+        if (nums[curr] < target) {
+            min = curr + 1
+        } else {
+            max = curr - 1;
+        }
+    }
+    if (nums[curr] === target) return curr;
+    return -1;
+};
