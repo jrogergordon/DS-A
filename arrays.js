@@ -73,9 +73,9 @@ var maxProfit = function (prices) {
 }; //
 
 
-Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums.If target exists, then return its index.Otherwise, return -1.
+// Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums.If target exists, then return its index.Otherwise, return -1.
 
-You must write an algorithm with O(log n) runtime complexity.
+// You must write an algorithm with O(log n) runtime complexity.
 
 var search = function (nums, target) {
     let min = 0;
@@ -92,4 +92,36 @@ var search = function (nums, target) {
     }
     if (nums[curr] === target) return curr;
     return -1;
+};
+
+// Given an integer array nums, return all the triplets[nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+// Notice that the solution set must not contain duplicate triplets.
+var threeSum = function (nums) {
+    let target = 0;
+    let results = [];
+    let i = 0;
+
+    while (nums[i] < target) {
+        let j = i + 1;
+        let k = nums.length - 1;
+        while (nums[i] === nums[i - 1]) {
+            i++
+        }
+
+
+
+        while (j < k) {
+            if (nums[j] + nums[k] + nums[i] === target) {
+                results.push([nums[k], nums[i], nums[j]])
+                i++
+            }
+            if (nums[j] + nums[k] + nums[i] < target) {
+                j++
+            }
+            if (nums[j] + nums[k] + nums[i] > target) {
+                k--;
+            }
+        }
+    }
 };
