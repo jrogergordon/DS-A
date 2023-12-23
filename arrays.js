@@ -98,30 +98,21 @@ var search = function (nums, target) {
 
 // Notice that the solution set must not contain duplicate triplets.
 var threeSum = function (nums) {
-    let target = 0;
-    let results = [];
-    let i = 0;
-
-    while (nums[i] < target) {
-        let j = i + 1;
-        let k = nums.length - 1;
-        while (nums[i] === nums[i - 1]) {
-            i++
-        }
-
-
-
-        while (j < k) {
-            if (nums[j] + nums[k] + nums[i] === target) {
-                results.push([nums[k], nums[i], nums[j]])
-                i++
-            }
-            if (nums[j] + nums[k] + nums[i] < target) {
-                j++
-            }
-            if (nums[j] + nums[k] + nums[i] > target) {
-                k--;
-            }
+    let sums = new Map();
+    let res = [];
+    for (let i = 0; i < nums.length; i++) {
+        for (let j = i + 1; j < nums.length; j++) {
+            let curr = new Map();
+            curr.set(i, i);
+            curr.set(j, j);
+            sums.set(nums[i] + nums[j], [curr, nums[i], nums[j]])
         }
     }
+    console.log(sums);
+    for (let k = 0; k < nums.length; k++) {
+        if (sums.has((0 - nums[k])) && !sums.get((0 - nums[k]))[0].has(k)) {
+            res.push([nums[k], sums.get(0 - k)[1], sums.get(0 - k)[2]])
+        }
+    }
+    return res;
 };
