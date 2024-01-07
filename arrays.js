@@ -139,4 +139,4 @@ var twoSum = function (nums, target) {
             map[n] = i;   //use map to store the value and index position
         }
     }
-};
+}; 
