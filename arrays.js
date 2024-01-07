@@ -136,7 +136,7 @@ var twoSum = function (nums, target) {
             return [map[target - n], i]
         }
         else {
-            map[n] = i;   //use map to store the value and index position 
+            map[n] = i;   //use map to store the value and index position  
         } 
     }
 }; 
