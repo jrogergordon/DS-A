@@ -140,3 +140,48 @@ var twoSum = function (nums, target) {
         } 
     }
 }; 
+
+
+// Given an array of integers nums sorted in non - decreasing order, find the starting and ending position of a given target value.
+
+// If target is not found in the array, return [-1, -1].
+
+// You must write an algorithm with O(log n) runtime complexity.
+
+
+
+var searchRange = function (nums, target) {
+    if (!nums.length) {
+        return [-1, -1];
+    }
+
+    let calcAns = function (x) {
+        let bot = x;
+        let top = x;
+        while (nums[bot] === target) {
+            bot--;
+        }
+        bot++;
+        while (nums[top] === target) {
+            top++;
+        }
+        top--;
+        return [bot, top];
+    }
+
+    let i = 0;
+    let j = nums.length;
+    while (i <= j) {
+        let mid = Math.floor((i + j) / 2);
+        console.log(mid);
+        if (nums[mid] === target) {
+            return calcAns(mid);
+        } else if (nums[mid] > target) {
+            j = mid - 1
+            console.log(j);
+        } else {
+            i = mid + 1
+        }
+    }
+    return [-1, -1];
+};
