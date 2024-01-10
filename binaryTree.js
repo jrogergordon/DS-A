@@ -43,3 +43,48 @@ var largestValues = function (root) {
     }
     return maxS;
 };
+
+// Given the root of a binary tree, invert the tree, and return its root.
+
+
+
+
+var invertTree = function (root) {
+    let swap = false;
+    let curr = [root];
+    let n = 1;
+    let o = 0;
+    while (curr.length > 0) {
+        let left = null;
+        let right = null;
+        let currNode = curr.shift();
+        if (currNode && currNode.right) {
+            console.log("hit1");
+            o++;
+            curr.push(currNode.right);
+            right = currNode.right;
+            currNode.right = null;
+        }
+        if (currNode && currNode.left) {
+            console.log("hit2");
+            o++;
+            curr.push(currNode.left);
+            left = currNode.left
+            currNode.left = null;
+        }
+        if (left !== null) {
+            console.log("hit3");
+            currNode.right = left;
+        }
+        if (right !== null) {
+            console.log("hit4");
+            currNode.left = right;
+        }
+        n--;
+        if (n === 0) {
+            n = o;
+            o = 0;
+        }
+    }
+    return root;
+};
