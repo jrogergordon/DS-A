@@ -198,7 +198,7 @@ var canReach = function (arr, start) {
             return;
         } else if (arr[i] === 0) {
             found = true;
-        }
+        } 
         record.add(i)
         traverse(i - arr[i]);
         traverse(i + arr[i]);
