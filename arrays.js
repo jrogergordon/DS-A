@@ -185,3 +185,28 @@ var searchRange = function (nums, target) {
     }
     return [-1, -1];
 };
+
+
+// Given an array of non - negative integers arr, you are initially positioned at start index of the array.When you are at index i, you can jump to i + arr[i] or i - arr[i], check if you can reach any index with value 0.
+
+// Notice that you can not jump outside of the array at any time.
+var canReach = function (arr, start) {
+    let record = new Set();
+    let found = false;
+    let traverse = function (i) {
+        if (i > arr.length - 1 || i < 0 || record.has(i)) {
+            return;
+        } else if (arr[i] === 0) {
+            found = true;
+        }
+        record.add(i)
+        traverse(i - arr[i]);
+        traverse(i + arr[i]);
+    }
+    traverse(start);
+    if (found) {
+        return true;
+    } else {
+        return false;
+    }
+};

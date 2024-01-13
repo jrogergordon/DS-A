@@ -46,9 +46,6 @@ var largestValues = function (root) {
 
 // Given the root of a binary tree, invert the tree, and return its root.
 
-
-
-
 var invertTree = function (root) {
     let swap = false;
     let curr = [root];
