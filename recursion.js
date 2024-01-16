@@ -214,3 +214,49 @@ var diffWaysToCompute = function (expression) {
     console.log(combos);
     return combos;
 }; 
+
+
+
+var minJumps = function (arr) {
+    let min = 0;
+    let dupes = new Map();
+    for (let i = 0; i < arr.length; i++) {
+        if (dupes.has(arr[i])) {
+            let curr = dupes.get(arr[i]);
+            curr.push(i);
+            dupes.set(arr[i], curr)
+        } else {
+            dupes.set(arr[i], [i])
+        }
+    }
+    let trav = new Set();
+
+
+    let cloner = function (i, j) {
+        let curr = dupes.get(arr[i]);
+        if (i === arr.length - 1) {
+            min = Math.min(j, min)
+            return;
+        }
+        if (!trav.has(i)) {
+            trav.add(i)
+        } else {
+            return;
+        }
+        cloner(i + 1, j + 1);
+        cloner(i - 1, j + 1);
+
+        if (curr.length > 1) {
+
+            for (let k = 0; k < curr.length;) {
+                if (i !== curr[k]) {
+                    cloner(curr[k], j + 1)
+                }
+            }
+            dupes.set(arr[i], []);
+        }
+
+    }
+    cloner(0, 0)
+
+};
