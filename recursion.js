@@ -221,42 +221,41 @@ var minJumps = function (arr) {
     let min = 0;
     let dupes = new Map();
     for (let i = 0; i < arr.length; i++) {
-        if (dupes.has(arr[i])) {
-            let curr = dupes.get(arr[i]);
-            curr.push(i);
-            dupes.set(arr[i], curr)
-        } else {
-            dupes.set(arr[i], [i])
-        }
+        if (!dupes.has(arr[i])) dupes.set(arr[i], []);
+        dupes.get(arr[i]).push(i);
+
     }
-    let trav = new Set();
-
-
-    let cloner = function (i, j) {
-        let curr = dupes.get(arr[i]);
-        if (i === arr.length - 1) {
-            min = Math.min(j, min)
-            return;
-        }
-        if (!trav.has(i)) {
-            trav.add(i)
-        } else {
-            return;
-        }
-        cloner(i + 1, j + 1);
-        cloner(i - 1, j + 1);
-
-        if (curr.length > 1) {
-
-            for (let k = 0; k < curr.length;) {
-                if (i !== curr[k]) {
-                    cloner(curr[k], j + 1)
+    let visited = new Set();
+    let current = [arr.length - 1];
+    let nextNode = [];
+    let found = false;
+    let steps = 0;
+    while (!found) {
+        while (current.length) {
+            let curr = current.pop();
+            if (!visited.has(curr) && curr < arr.length && curr > -1) {
+                visited.add(curr);
+                if (dupes.get(arr[curr]).length > 1) {
+                    for (let j = 0; j < dupes.get(arr[curr]).length; j++) {
+                        if (curr !== dupes.get(arr[curr])[j]) {
+                            nextNode.push(dupes.get(arr[curr])[j]);
+                        }
+                    }
                 }
-            }
-            dupes.set(arr[i], []);
+                if (curr === 0) {
+                    found = true;
+                    return steps++;
+                }
+                nextNode.push(curr + 1);
+                nextNode.push(curr - 1);
+            };
         }
-
+        steps++;
+        current = nextNode;
+        nextNode = [];
     }
-    cloner(0, 0)
+
+
+
 
 };
