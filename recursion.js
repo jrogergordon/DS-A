@@ -258,4 +258,4 @@ var minJumps = function (arr) {
 
 
 
-};
+}; 
