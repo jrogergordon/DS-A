@@ -210,3 +210,76 @@ var canReach = function (arr, start) {
         return false;
     }
 };
+
+
+// Given an array of integers arr, you are initially positioned at the first index of the array.
+
+// In one step you can jump from index i to index:
+
+var minJumps = function (arr) {
+    console.log(arr.length);
+    let dupes = new Map();
+    for (let i = 0; i < arr.length; i++) {
+        if (!dupes.has(arr[i])) dupes.set(arr[i], []);
+        dupes.get(arr[i]).push(i);
+
+    }
+    let visited = new Set();
+    let current = [arr.length - 1];
+    let nextNode = [];
+    let found = false;
+    let steps = 0;
+    while (!found) {
+        let small = false;
+        while (current.length) {
+            let curr = current.pop();
+            if (!visited.has(curr) && curr < arr.length && curr > -1) {
+                visited.add(curr);
+                if (dupes.get(arr[curr]).length > 1) {
+                    dupes.get(arr[curr]).sort(function (a, b) {
+                        return a - b;
+                    });
+                    for (let j = 0; j < dupes.get(arr[curr]).length; j++) {
+                        if (curr !== dupes.get(arr[curr])[j]) {
+                            if (dupes.get(arr[curr])[j] === 0) {
+                                found = true;
+                                add = 1;
+                                small = true;
+                                // return steps;
+                            }
+                            if (dupes.get(arr[curr])[j] === 1) {
+                                found = true;
+                                if (!small) {
+                                    found = true;
+                                    add = 2;
+                                }
+                                // return steps;    
+                            }
+                            nextNode.push(dupes.get(arr[curr])[j]);
+                        }
+                    }
+                }
+                if (curr === 0) {
+                    found = true;
+                    return steps;
+                }
+                if (curr + 1 === 0 || curr - 1 === 0) {
+                    found = true;
+                    steps = steps + 1;
+                    return steps;
+                } else {
+                    nextNode.push(curr + 1);
+                    nextNode.push(curr - 1);
+                }
+
+            };
+        }
+        if (found) {
+            steps = steps + add;
+            return steps;
+        }
+        steps++;
+        current = nextNode;
+        nextNode = [];
+    }
+};
