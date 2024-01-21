@@ -85,3 +85,30 @@ var invertTree = function (root) {
     }
     return root;
 };
+
+// Given the root of a binary tree, flatten the tree into a "linked list":
+
+// The "linked list" should use the same TreeNode class where the right child pointer points to the next node in the list and the left child pointer is always null.
+//     The "linked list" should be in the same order as a pre - order traversal of the binary tree.
+
+
+var flatten = function (root) {
+    let record = [];
+
+
+    function recur(curr) {
+        if (curr && curr.val !== null) {
+            record.push(curr.val);
+            recur(curr.left);
+            recur(curr.right);
+        }
+    }
+    recur(root);
+    record.shift();
+    while (record.length !== 0) {
+        let curr = record.shift();
+        root.left = null;
+        root.right = new TreeNode(curr);
+        root = root.right;
+    }
+};
