@@ -240,7 +240,7 @@ var minJumps = function (arr) {
                         if (curr !== dupes.get(arr[curr])[j]) {
                             nextNode.push(dupes.get(arr[curr])[j]);
                         }
-                    }
+                    } 
                 }
                 if (curr === 0) {
                     found = true;
