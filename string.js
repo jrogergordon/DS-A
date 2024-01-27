@@ -314,78 +314,63 @@ var validIPAddress = function (queryIP) {
 // // The test cases are generated so that the length of the output will never exceed 105.
 
 var decodeString = function(s) {
-    console.log(s)
     let decoded = "";
     let nums = new Set();
-    nums.add("0")
-    nums.add("1")
-    nums.add("2")
-    nums.add("3")
-    nums.add("4")
-    nums.add("5")
-    nums.add("6")
-    nums.add("7")
-    nums.add("8")
-    nums.add("9")
-    let wrds = [];
-    let rep = [];
-    let solve = function(strArr, numArr) {
-        console.log(numArr, strArr)
-        let currNum;
-        let currStr;
-        let curr = "";
-        while(strArr.length) {
-            if(!numArr.length) {
-                currNum = 1;               
-            } else {
-                currNum = numArr.pop();
+    nums.add("0");
+    nums.add("1");
+    nums.add("2");
+    nums.add("3");
+    nums.add("4");
+    nums.add("5");
+    nums.add("6");
+    nums.add("7");
+    nums.add("8");
+    nums.add("9");
+    let words = [];
+    let numbers = [];
+    let x = -1;
+
+    for (let i = 0; i < s.length; i++) {
+        if (nums.has(s[i])) {
+            let currNum = "";
+            while (nums.has(s[i])) {
+                currNum = currNum + `${s[i]}`;
+                i++;
             }
-            currStr =  strArr.pop() + curr;
-            curr = currStr;
-            while(currNum > 1) {
-                curr = curr + currStr;
+            console.log(currNum)
+            words.push("");
+            numbers.push(parseInt(currNum));
+            x++;
+        } else if (s[i] === "]") {
+            console.log("hit", words, numbers);
+            let curr = "";
+            let currNum = numbers.pop();
+            let currWord = words.pop();
+            while (currNum > 0) {
+                curr = curr + currWord;
                 currNum--;
             }
+            x--
+            if (words.length > 0) {
+                words[x] = words[x] + curr;
+            } else {
+                decoded = decoded + curr;
+            }
+        } else {
+            if (words.length === 0) {
+                words.push("");
+                x++;
+            }
+            words[x] = words[x] + s[i];
+            if (i === s.length - 1) {
+                decoded = decoded + words[x];
+                words.pop();
+            }
         }
-        return curr;
     }
-    let openClose = 0;
-    let opClo = new Map();
-    opClo.set("[", 1);
-    opClo.set("]", -1);
-    for(let i = 0; i < s.length; i++) {
-        if(opClo.has(s[i])) {
-            openClose = openClose + opClo.get(s[i])
-        };
-        if(nums.has(s[i])) {
-            let numCurr = "";
-            while(nums.has(s[i])) {           
-                numCurr = numCurr + s[i];
-                i++;
-            }
-            i--;
-            rep.push(parseInt(numCurr));
-            continue;
-        }
-        if(!nums.has(s[i]) && !opClo.has(s[i])) {
-            let wrdCurr = "";
-            while(!nums.has(s[i]) && !opClo.has(s[i]) && i < s.length) {
-                wrdCurr = wrdCurr + s[i];
-                i++;
-            }
-            i--;
-            wrds.push(wrdCurr);
-            continue;
-        }
-        if(openClose === 0 && wrds.length) {
-            decoded = decoded + (solve(wrds, rep));
-            rep = [];
-            wrds = [];
+    if (words[0]) {
+        decoded = decoded + words[0];
+    }
 
-        }
-    }
-    if(wrds.length) {
-        decoded = decoded + (solve(wrds, rep));
-    }
-    return decoded
+    return decoded;
 };
