@@ -237,7 +237,7 @@ var minJumps = function (arr) {
                 visited.add(curr);
                 if (dupes.get(arr[curr]).length > 1) {
                     for (let j = 0; j < dupes.get(arr[curr]).length; j++) {
-                        if (curr !== dupes.get(arr[curr])[j]) {
+                        if (curr !== dupes.get(arr[curr])[j]) { 
                             nextNode.push(dupes.get(arr[curr])[j]);
                         }
                     }  
