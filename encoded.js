@@ -10,4 +10,4 @@ let decode = function(code) {
     return ans.join(" ")
 }
 let p = decode("./encoded.txt");
-console.log(p);
+console.log(p); 
